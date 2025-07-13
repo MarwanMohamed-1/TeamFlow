@@ -7,6 +7,6 @@ export const routes: Routes = [
     {path:"",component:TaskListComponent},    
     {path:"tasks",component:TaskListComponent},    
     {path:'tasks/add',component:TaskFormComponent},    
-    {path:"tasks/edit/:id",component:TaskFormComponent},
-    {path:"tasks/:id",component:TaskDetailsComponent},
+    {path:"tasks/Edit/:id",component:TaskFormComponent},
+    {path:"tasks/details/:id",component:TaskDetailsComponent},
 ];

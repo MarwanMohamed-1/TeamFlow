@@ -1,0 +1,53 @@
+.task-details {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    margin: 1rem auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .task-details h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .task-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .status {
+    background-color: #007bff; /* Blue */
+  }
+  
+  .priority {
+    background-color: #28a745; /* Green */
+  }
+  
+  /* Optional: color coding for priority levels */
+  .priority.P1 {
+    background-color: #dc3545; /* Red */
+  }
+  .priority.P2 {
+    background-color: #ffc107; /* Yellow */
+  }
+  .priority.P3 {
+    background-color: #17a2b8; /* Teal */
+  }
+  .priority.P4 {
+    background-color: #6c757d; /* Gray */
+  }
+  

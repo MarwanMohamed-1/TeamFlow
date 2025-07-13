@@ -1,25 +1,72 @@
-<div class="backdrop"></div>
-<dialog open>
-  <h2>Add Task</h2>
-  <form>
-    <p>
-      <label for="title">Title</label>
-      <input type="text" id="title" name="title" />
-    </p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="task-form" novalidate>
+  <!-- Title -->
+  <div class="form-group mb-3">
+    <label for="title">Title</label>
+    <input id="title" class="form-control" formControlName="title" />
+    <small class="text-danger" *ngIf="form.get('title')?.touched && form.get('title')?.hasError('required')">
+      Title is required.
+    </small>
+    <small class="text-danger" *ngIf="form.get('title')?.touched && form.get('title')?.hasError('minlength')">
+      Minimum 3 characters required.
+    </small>
+  </div>
 
-    <p>
-      <label for="summary">Summary</label>
-      <textarea id="summary" rows="5" name="summary"></textarea>
-    </p>
+  <!-- Description -->
+  <div class="form-group mb-3">
+    <label for="description">Description</label>
+    <textarea id="description" class="form-control" formControlName="description"></textarea>
+    <small class="text-danger" *ngIf="form.get('description')?.touched && form.get('description')?.hasError('required')">
+      Description is required.
+    </small>
+    <small class="text-danger" *ngIf="form.get('description')?.touched && form.get('description')?.hasError('minlength')">
+      Minimum 10 characters required.
+    </small>
+  </div>
 
-    <p>
-      <label for="due-date">Due Date</label>
-      <input type="date" id="due-date" name="due-date" />
-    </p>
+  <!-- Status -->
+  <div class="form-group mb-3">
+    <label for="status">Status</label>
+    <select id="status" class="form-select" formControlName="status">
+      <option value="">-- Select Status --</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ status }}</option>
+      }
+    </select>
+    <small class="text-danger" *ngIf="form.get('status')?.touched && form.get('status')?.invalid">
+      Status is required.
+    </small>
+  </div>
 
-    <p class="actions">
-      <button type="button">Cancel</button>
-      <button type="submit">Create</button>
-    </p>
-  </form>
-</dialog>
+  <!-- Due Date -->
+  <div class="form-group mb-3">
+    <label for="dueDate">Due Date</label>
+    <input id="dueDate" type="datetime-local" class="form-control" formControlName="dueDate" />
+    <small class="text-danger" *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.hasError('required')">
+      Due date is required.
+    </small>
+    <small class="text-danger" *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.hasError('notFuture')">
+      Must be a future date/time.
+    </small>
+  </div>
+
+  <!-- Priority -->
+  <div class="form-group mb-3">
+    <label for="priority">Priority</label>
+    <select id="priority" class="form-select" formControlName="priority">
+      @for (p of priorities; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select>
+    <small class="text-danger" *ngIf="form.get('priority')?.touched && form.get('priority')?.invalid">
+      Priority is required.
+    </small>
+  </div>
+
+  <!-- Buttons -->
+  <div class="form-actions d-flex gap-2">
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+      {{ task ? 'Update Task' : 'Add Task' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

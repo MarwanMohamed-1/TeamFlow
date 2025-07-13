@@ -1,50 +1,37 @@
-  <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>📋 Task List</h2>
-      <button class="btn btn-primary" routerLink="/tasks/add" routerLinkActive="active">Add Task</button>
-    </div>
-
-    @if (tasks.length > 0) {
-      <table class="table table-bordered table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (task of tasks; track task.id) {
-            <tr>
-              <td>{{ task.title }}</td>
-              <td>{{ task.description }}</td>
-              <td><span class="badge bg-secondary">{{ task.status }}</span></td>
-              <td>{{ task.dueDate }}</td>
-              <td>
-                <span class="badge text-dark"
-                      [ngClass]="{
-                        'bg-danger': task.priority === 'P1',
-                        'bg-warning': task.priority === 'P2',
-                        'bg-info': task.priority === 'P3',
-                        'bg-success': task.priority === 'P4'
-                      }">
-                  {{ task.priority }}
-                </span>
-              </td>
-              
-              <td>
-                <button class="btn btn-sm btn-warning me-2">Edit</button>
-                <button class="btn btn-sm btn-danger">Delete</button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    } @else {
-      <p class="text-muted">No tasks available.</p>
-    }
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>📋 Task List</h2>
+    <button class="btn btn-primary" routerLink="/tasks/add" routerLinkActive="active" (click)="openAddform()">Add Task</button>
   </div>
-  
+  @if (showForm) {
+    <app-task-form-component
+    [task]="selectedTask"
+    (formSubmitted)="handleFormSubmit($event)"
+    (cancel)="closeForm()"
+    />
+  }
+  <div class="mb-3">
+    <label for="statusFilter" class="form-label">Filter by Status:</label>
+    <select id="statusFilter" class="form-select" [(ngModel)]="selectedStatus" (change)="applyFilter()">
+      <option value="">All</option>
+      @for (status of statuses; track $index) {
+        <option>{{ status }}</option>
+      }
+    </select>
+  </div>
+
+  @if (tasks.length > 0) {
+    <div class="d-flex flex-column gap-3">
+      @for (task of filteredTasks; track task.id) {
+        <app-task-item-component
+          [task]="task"
+          (edit)="handleEdit($event)"
+          (delete)="handleDelete($event)"
+          (toggleStatus)="handleToggleStatus($event)">
+        </app-task-item-component>
+      }
+    </div>
+  } @else {
+    <p class="text-muted">No tasks available.</p>
+  }
+</div>
