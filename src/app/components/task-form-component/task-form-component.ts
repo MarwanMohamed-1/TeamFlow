@@ -28,9 +28,9 @@ export class TaskFormComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.form = this.fb.group({
-      title: ['', Validators.required,Validators.minLength(3)],
-      description: ['', Validators.required,Validators.minLength(10)],
-      status: ['To Do', Validators.required,Validators.pattern('^(To Do|In Progress|Done)$')],
+      title: ['', [Validators.required,Validators.minLength(3)]],
+      description: ['', [Validators.required,Validators.minLength(10)]],
+      status: ['To Do', Validators.required],
       dueDate: ['', Validators.required],
       priority: ['Low', Validators.required],
     });
@@ -41,6 +41,7 @@ export class TaskFormComponent implements OnInit {
         description: this.task.description,
         status: this.task.status,
         dueDate: this.task.dueDate,
+        priority: this.task.priority
       });
     }
   }

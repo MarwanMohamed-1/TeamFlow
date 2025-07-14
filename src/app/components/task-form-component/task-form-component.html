@@ -44,9 +44,6 @@
     <small class="text-danger" *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.hasError('required')">
       Due date is required.
     </small>
-    <small class="text-danger" *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.hasError('notFuture')">
-      Must be a future date/time.
-    </small>
   </div>
 
   <!-- Priority -->
