@@ -4,7 +4,18 @@
       <h5 class="card-title">{{ task.title }}</h5>
       <p class="card-text">{{ task.description }}</p>
       <span class="badge bg-secondary">{{ task.status }}</span>
-      <span class="badge bg-light text-dark">{{ task.dueDate }}</span>
+      <span class="badge bg-light text-dark">{{ task.dueDate |date }}</span>
+      @if (task.priority == 'P1') {
+        <span class="badge bg-danger text-white">Critical</span>
+      } @else if (task.priority == 'P2') {
+        <span class="badge bg-warning text-dark">Major</span>
+      } @else if (task.priority == 'P3') {
+        <span class="badge bg-info text-white">Medium</span>
+      } @else if (task.priority == 'P4') {
+        <span class="badge bg-success text-white">Low</span>
+      } @else {
+        <span class="badge bg-secondary">Unknown</span>
+      }
     </div>
     <div>
       <button class="btn btn-sm btn-success me-2" (click)="onToggleStatus()">Toggle Status</button>

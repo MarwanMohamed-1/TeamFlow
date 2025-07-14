@@ -1,9 +1,9 @@
 import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { Task } from '../../models/taskInterface';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-task-item-component',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './task-item-component.html',
   styleUrl: './task-item-component.css'
 })
