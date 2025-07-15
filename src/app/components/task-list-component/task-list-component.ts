@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TaskService } from '../../services/taskService';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list-component',
-  imports: [RouterModule, CommonModule, FormsModule, TaskItemComponent, TaskFormComponent],
+  imports: [RouterModule, CommonModule, FormsModule, TaskItemComponent],
   templateUrl: './task-list-component.html',
   styleUrl: './task-list-component.css'
 })
@@ -21,6 +21,8 @@ export class TaskListComponent implements OnInit {
   selectedStatus: string = '';
   showForm: boolean = false;
   selectedTask:Task | null = null;
+  @Input() newTaskAdded:Task | null = null; 
+
   constructor(private service:TaskService,private router :Router) {}
   
   ngOnInit(): void {
@@ -45,11 +47,6 @@ export class TaskListComponent implements OnInit {
     this.selectedStatus = '';
     this.filteredTasks = [...this.tasks];
   }
-
-handleEdit(task: Task) {
-  this.selectedTask = task;
-  this.showForm = true;
-}
 handleDelete(taskId: number){
   //we can use dialog component to confirm deletion
   //but for simplicity we are using confirm dialog
@@ -69,27 +66,21 @@ handleToggleStatus(task: Task) {
 
 openAddform() {
   this.selectedTask = null;
-  this.showForm = true;
+  this.router.navigate(['/tasks/add']);
 }
 openEditForm(task: Task) {
-  this.selectedTask = task;
-  this.showForm = true;
-}
-closeForm() {
-  this.showForm = false;
-  this.selectedTask = null;
+  this.router.navigate(['/tasks/edit', task.id], { state: { task} });
 }
 handleFormSubmit(task: Task) {
   if(this.selectedTask)
   {
-    //This line updates a task in thetasks array 
+    //This line updates a task in the tasks array 
     // by replacing the old version with the new one (based on matching id)
     this.tasks = this.tasks.map(t => t.id === task.id ? task : t);
   }else{
     this.tasks.push(task);
   }
   this.applyFilter();
-  this.closeForm();
   this.selectedTask = null;
 }
 }

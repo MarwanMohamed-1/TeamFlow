@@ -51,7 +51,7 @@
     <label for="priority">Priority</label>
     <select id="priority" class="form-select" formControlName="priority">
       @for (p of priorities; track p) {
-        <option [value]="p">{{ p }}</option>
+        <option [value]="p.value">{{ p.label }}</option>
       }
     </select>
     <small class="text-danger" *ngIf="form.get('priority')?.touched && form.get('priority')?.invalid">
