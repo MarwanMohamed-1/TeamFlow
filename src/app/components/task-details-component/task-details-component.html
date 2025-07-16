@@ -1,8 +1,35 @@
-<div class="task-details">
-    <!-- <h3>{{ task.title }}</h3> -->
+@if (task) {
+  <div class="task-card">
+    <h2>{{ task.title }}</h2>
     <p><strong>Description:</strong> {{ task.description }}</p>
-    <p><strong>Status:</strong> <span class="badge status">{{ task.status }}</span></p>
-    <p><strong>Due Date:</strong> {{ task.dueDate }}</p>
-    <p><strong>Priority:</strong> <span class="badge priority">{{ task.priority }}</span></p>
+    <p><strong>Status:</strong> 
+      <span class="badge bg-secondary">{{ task.status }}</span>
+    </p>
+    <p><strong>Due Date:</strong> 
+      <span class="badge bg-light text-dark">{{ task.dueDate | date }}</span>
+    </p>
+    <p><strong>Priority:</strong> 
+      @switch (task.priority) {
+        @case ('P1') {
+          <span class="badge bg-danger text-white">Critical</span>
+        }
+        @case ('P2') {
+          <span class="badge bg-warning text-dark">Major</span>
+        }
+        @case ('P3') {
+          <span class="badge bg-info text-white">Medium</span>
+        }
+        @case ('P4') {
+          <span class="badge bg-success text-white">Low</span>
+        }
+        @default {
+          <span class="badge bg-secondary">Unknown</span>
+        }
+      }
+    </p>
   </div>
-  
+} @else {
+  <div class="alert alert-warning text-center mt-4">
+    <h4>Task not found.</h4>
+  </div>
+}

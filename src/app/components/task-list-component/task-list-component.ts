@@ -29,34 +29,18 @@ export class TaskListComponent implements OnInit {
     this.filteredTasks = this.tasks;
     this.loadData();
   }
-
-  lloadData() {
-  this.service.getTasks().subscribe((data:Task[]) => {
-    this.tasks = data;
-    this.applyFilter();
-
-    // ✅ Handle incoming task from shared service
-    const incomingTask = this.service.taskToEditOrAdd;
-    if (incomingTask) {
-      this.handleFormSubmit(incomingTask);
-      this.service.taskToEditOrAdd = null; // Reset
-    }
-  });
-}
 loadData() {
-  this.tasks = this.service.getTasks(); // no subscribe needed
+  this.tasks = this.service.getTasks(); 
   const incomingTask = this.service.taskToEditOrAdd;
 
   if (incomingTask) {
     this.handleFormSubmit(incomingTask);
     this.service.taskToEditOrAdd = null;
-    this.service.saveTasks(this.tasks); // save changes
+    this.service.saveTasks(this.tasks);
   }
 
   this.applyFilter();
 }
-
-  
   applyFilter() {
     this.filteredTasks= this.selectedStatus
     ? this.tasks.filter(task => task.status === this.selectedStatus)
@@ -98,12 +82,7 @@ handleFormSubmit(task: Task) {
   } else {
     this.tasks.push(task);
   }
-
-  // ✅ Save the updated list
   this.service.saveTasks(this.tasks);
-
   this.applyFilter();
 }
-
-
 }

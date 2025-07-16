@@ -21,6 +21,11 @@
       <button class="btn btn-sm btn-success me-2" (click)="onToggleStatus()">Toggle Status</button>
       <button class="btn btn-sm btn-warning me-2" (click)="onEdit()">Edit</button>
       <button class="btn btn-sm btn-danger" (click)="onDelete()">Delete</button>
-    </div>
+<button 
+  class="btn btn-outline-primary btn-sm"
+  [routerLink]="['/tasks/details', task.id]"
+  routerLinkActive="active">
+  <i class="bi bi-info-circle"></i> Details
+</button>    </div>
   </div>
 </div>
