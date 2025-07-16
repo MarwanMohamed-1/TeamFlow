@@ -30,12 +30,32 @@ export class TaskListComponent implements OnInit {
     this.loadData();
   }
 
-  loadData(){
-    this.service.getTasks().subscribe((data=>{
-      this.tasks=data;
-      this.applyFilter();
-    }) )
+  lloadData() {
+  this.service.getTasks().subscribe((data:Task[]) => {
+    this.tasks = data;
+    this.applyFilter();
+
+    // ✅ Handle incoming task from shared service
+    const incomingTask = this.service.taskToEditOrAdd;
+    if (incomingTask) {
+      this.handleFormSubmit(incomingTask);
+      this.service.taskToEditOrAdd = null; // Reset
+    }
+  });
+}
+loadData() {
+  this.tasks = this.service.getTasks(); // no subscribe needed
+  const incomingTask = this.service.taskToEditOrAdd;
+
+  if (incomingTask) {
+    this.handleFormSubmit(incomingTask);
+    this.service.taskToEditOrAdd = null;
+    this.service.saveTasks(this.tasks); // save changes
   }
+
+  this.applyFilter();
+}
+
   
   applyFilter() {
     this.filteredTasks= this.selectedStatus
@@ -72,15 +92,18 @@ openEditForm(task: Task) {
   this.router.navigate(['/tasks/edit', task.id], { state: { task} });
 }
 handleFormSubmit(task: Task) {
-  if(this.selectedTask)
-  {
-    //This line updates a task in the tasks array 
-    // by replacing the old version with the new one (based on matching id)
-    this.tasks = this.tasks.map(t => t.id === task.id ? task : t);
-  }else{
+  const existingIndex = this.tasks.findIndex(t => t.id === task.id);
+  if (existingIndex !== -1) {
+    this.tasks[existingIndex] = task;
+  } else {
     this.tasks.push(task);
   }
+
+  // ✅ Save the updated list
+  this.service.saveTasks(this.tasks);
+
   this.applyFilter();
-  this.selectedTask = null;
 }
+
+
 }
